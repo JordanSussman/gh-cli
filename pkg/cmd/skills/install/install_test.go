@@ -1169,11 +1169,11 @@ func TestInstallRun(t *testing.T) {
 					HttpClient:  func() (*http.Client, error) { return &http.Client{Transport: reg}, nil },
 					Prompter:    &prompter.PrompterMock{},
 					GitClient:   &git.Client{RepoDir: t.TempDir()},
-					SkillSource: "acme.ghes.com/monalisa/octocat-skills",
+					SkillSource: "github.localhost/monalisa/octocat-skills",
 					SkillName:   "git-commit",
 				}
 			},
-			wantErr: "does not currently support GitHub Enterprise Server",
+			wantErr: "unsupported host for GitHub Skills",
 		},
 		{
 			name:  "select all skills in interactive prompt",

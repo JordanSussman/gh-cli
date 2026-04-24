@@ -968,7 +968,7 @@ func detectGitHubRemote(gitClient *git.Client, dir string) (*gitHubRemote, error
 }
 
 // parseGitHubURL extracts owner/repo from a GitHub remote URL.
-// Only github.com and GHEC data residency (*.ghe.com) URLs are recognized.
+// github.com, GHEC data residency (*.ghe.com), and GHES URLs are recognized.
 func parseGitHubURL(rawURL string) (ghrepo.Interface, error) {
 	u, err := git.ParseURL(rawURL)
 	if err != nil {

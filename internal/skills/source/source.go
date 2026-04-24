@@ -51,8 +51,8 @@ func ParseMetadataRepo(meta map[string]interface{}) (ghrepo.Interface, bool, err
 }
 
 // ValidateSupportedHost rejects hosts that are not supported.
-// Supported hosts are github.com and GHEC with data residency (*.ghe.com).
-// GitHub Enterprise Server is not currently supported.
+// Supported hosts are github.com, GHEC with data residency (*.ghe.com),
+// and GitHub Enterprise Server hosts configured in gh.
 func ValidateSupportedHost(host string) error {
 	host = normalizeHost(host)
 	if host == "" {
@@ -61,10 +61,20 @@ func ValidateSupportedHost(host string) error {
 	if host == SupportedHost || ghauth.IsTenancy(host) {
 		return nil
 	}
-	if ghauth.IsEnterprise(host) {
-		return fmt.Errorf("GitHub Skills does not currently support GitHub Enterprise Server; got %s", host)
+	if ghauth.IsEnterprise(host) && isKnownHost(host) {
+		return nil
 	}
 	return fmt.Errorf("unsupported host for GitHub Skills: %s", host)
+}
+
+func isKnownHost(host string) bool {
+	host = normalizeHost(host)
+	for _, knownHost := range ghauth.KnownHosts() {
+		if normalizeHost(knownHost) == host {
+			return true
+		}
+	}
+	return false
 }
 
 func normalizeHost(host string) string {

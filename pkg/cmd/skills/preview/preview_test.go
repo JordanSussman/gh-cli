@@ -410,10 +410,10 @@ func TestPreviewRun_UnsupportedHost(t *testing.T) {
 	err := previewRun(&PreviewOptions{
 		IO:         ios,
 		HttpClient: func() (*http.Client, error) { return &http.Client{}, nil },
-		repo:       ghrepo.NewWithHost("github", "awesome-copilot", "acme.ghes.com"),
+		repo:       ghrepo.NewWithHost("github", "awesome-copilot", "github.localhost"),
 		Telemetry:  &telemetry.NoOpService{},
 	})
-	require.ErrorContains(t, err, "does not currently support GitHub Enterprise Server")
+	require.ErrorContains(t, err, "unsupported host for GitHub Skills")
 }
 
 func TestPreviewRun_Interactive(t *testing.T) {

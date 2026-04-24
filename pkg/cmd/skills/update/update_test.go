@@ -160,7 +160,7 @@ func TestScanInstalledSkills(t *testing.T) {
 					---
 					name: enterprise-skill
 					metadata:
-					  github-repo: https://acme.ghes.com/monalisa/octocat-skills
+					  github-repo: https://github.localhost/monalisa/octocat-skills
 					  github-tree-sha: abc123
 					---
 					body
@@ -171,7 +171,7 @@ func TestScanInstalledSkills(t *testing.T) {
 				require.NoError(t, err)
 				require.Len(t, skills, 1)
 				require.Error(t, skills[0].metadataErr)
-				assert.Contains(t, skills[0].metadataErr.Error(), "does not currently support GitHub Enterprise Server")
+				assert.Contains(t, skills[0].metadataErr.Error(), "unsupported host for GitHub Skills")
 			},
 		},
 		{

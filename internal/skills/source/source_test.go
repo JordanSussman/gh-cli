@@ -71,8 +71,12 @@ func TestParseMetadataRepo(t *testing.T) {
 }
 
 func TestValidateSupportedHost(t *testing.T) {
+	t.Setenv("GH_HOST", "acme.ghes.com")
+	t.Setenv("GH_ENTERPRISE_TOKEN", "token")
+
 	require.NoError(t, ValidateSupportedHost("github.com"))
 	require.NoError(t, ValidateSupportedHost("mycompany.ghe.com"), "GHEC data residency tenancy hosts should be accepted")
-	require.ErrorContains(t, ValidateSupportedHost("acme.ghes.com"), "does not currently support GitHub Enterprise Server")
+	require.NoError(t, ValidateSupportedHost("acme.ghes.com"), "GHES hosts should be accepted")
 	require.ErrorContains(t, ValidateSupportedHost("github.localhost"), "unsupported host")
+	require.ErrorContains(t, ValidateSupportedHost("unknown.ghes.com"), "unsupported host")
 }

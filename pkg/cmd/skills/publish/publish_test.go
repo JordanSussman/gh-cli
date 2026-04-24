@@ -169,9 +169,9 @@ func TestPublishRun_UnsupportedHost(t *testing.T) {
 		Dir:        dir,
 		GitClient:  newTestGitClient(),
 		HttpClient: func() (*http.Client, error) { return nil, nil },
-		host:       "acme.ghes.com",
+		host:       "github.localhost",
 	})
-	require.ErrorContains(t, err, "does not currently support GitHub Enterprise Server")
+	require.ErrorContains(t, err, "unsupported host for GitHub Skills")
 }
 
 func TestPublishRun(t *testing.T) {

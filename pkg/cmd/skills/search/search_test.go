@@ -21,7 +21,7 @@ func TestSearchRun_UnsupportedHost(t *testing.T) {
 	ios, _, _, _ := iostreams.Test()
 	cfg := config.NewBlankConfig()
 	authCfg := cfg.Authentication()
-	authCfg.SetDefaultHost("acme.ghes.com", "user")
+	authCfg.SetDefaultHost("github.localhost", "user")
 	cfg.AuthenticationFunc = func() gh.AuthConfig {
 		return authCfg
 	}
@@ -33,7 +33,7 @@ func TestSearchRun_UnsupportedHost(t *testing.T) {
 		HttpClient: func() (*http.Client, error) { return &http.Client{}, nil },
 		Config:     func() (gh.Config, error) { return cfg, nil },
 	})
-	require.ErrorContains(t, err, "does not currently support GitHub Enterprise Server")
+	require.ErrorContains(t, err, "unsupported host for GitHub Skills")
 }
 
 func TestNewCmdSearch(t *testing.T) {
